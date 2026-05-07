@@ -1,0 +1,6 @@
+{
+	"nodes":[
+		{"id":"b62530f27ac9b9b7","type":"text","text":"\n| **ID**          |     |\n| ----------- | --- |\n| **Title**       |     |\n| **Description** |     |\n| **Priority**    |     |\n| **Deadline**    |     |\n| **Status**      |     |\n| **History**     |     |\n","x":-255,"y":-150,"width":510,"height":300}
+	],
+	"edges":[]
+}

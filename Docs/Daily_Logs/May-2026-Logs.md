@@ -1,0 +1,4 @@
+## 2026-05-06
+
+This is the official start of the project. To start, I defined the base specifications of the CPU (see the CPU_Specification document for reference). The first part of designing this CPU is creating a high-level functional simulator that abstracts away and simulates the behaviour of the CPU (see the Simulator_Notes document for more details). To summarize, I am creating a very simple 32-bit single cycle RISC-V CPU, without pipelining. For the time being, instruction memory and data memory are separated into ROM and RAM, respectively. \
+Today, I defined header files for the RAM, ROM, CPU, and entire system, in the C++ simulator.
