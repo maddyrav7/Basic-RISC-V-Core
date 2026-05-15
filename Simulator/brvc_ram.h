@@ -21,22 +21,21 @@ class Ram {
         Ram& operator=(Ram&&) = default;
 
         // Read operations.
-        uint8_t  Read8 (uint32_t addr) const;
-        uint32_t Read32(uint32_t addr) const;
+        uint8_t  ReadByte(uint32_t addr);
+        uint32_t ReadWord(uint32_t addr);
 
         // Write operations.
-        void Write8 (uint32_t addr, uint8_t value);
-        void Write32(uint32_t addr, uint32_t value);
+        void WriteByte(uint32_t addr, uint8_t value);
+        void WriteWord(uint32_t addr, uint32_t value);
 
         // Load and reset. Load is used to (re)initialize.
-        void LoadRam(uint32_t base_addr, uint32_t size, const std::vector<uint8_t>& ram);
-        // Clear sets all of the RAM to 0.
+        void LoadRam(uint32_t base_addr, uint64_t size, const std::vector<uint8_t>& ram);
+        // Clear removes all addresses (effectively sets everything to 0).
         void Clear (void);
 
     private:
-        void CheckBounds(uint32_t addr) const;
-
         std::unordered_map<uint32_t, uint8_t> ram_;
+        uint64_t size_;
     };
 
 } // namespace brvc
