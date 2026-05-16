@@ -18,7 +18,7 @@ struct SystemConfig {
 
 class System {
     public:
-        System() = default;
+        explicit System(Cpu& cpu, Rom& rom, Ram& ram);
 
         // Non-copyable.
         System(const System&) = delete;
@@ -38,9 +38,9 @@ class System {
         void Reset();
 
     private:
-        Cpu cpu_;
-        Rom rom_;
-        Ram ram_;
+        Cpu& cpu_;
+        Rom& rom_;
+        Ram& ram_;
 
 };
 
