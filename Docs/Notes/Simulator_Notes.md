@@ -8,4 +8,4 @@ Components:
 - pc (program counter)
 
 The state of the CPU/simulator at any given time is the state of the above components.
-For the simulator design, I will be following the Google C++ Style Guide. One change I am making is to use 4 spaces for indentation rather than the 1 that the Google style guide gives. While I would like to use something like Doxygen for commenting and formatting, this project is small enough that doing so wouldn't make sense.
+For the simulator design, I will be following the Google C++ Style Guide with a few modifications. While I would like to use something like Doxygen for commenting and formatting, this project is small enough that doing so wouldn't make sense.
