@@ -17,3 +17,11 @@ Today I went back to complete the implementations of the ROM and RAM modules. Pa
 - Created the implementation for the brvc_system module.
 
 Much of the code I wrote today is relatively self-explanatory; not many details to go over that aren't obvious from the code. Same as last time, most of the work went into properly organizing the project and its code to make future work easier. Over the next couple weeks though, I will transition into implementing individual instructions and writing tests. Once that work gets started, there will be more time spent on implementation over organization. Next task is creating mechanisms to dump out the system state at any point in time (mainly for debugging and verification). One thing, I might want to make a separate utils file to put the custom macros and other utilities inside. I haven't done that for the time being for convenience, but I might later.
+
+## 2026-05-18
+
+- Moved assert and alignment macros to a new brvc_utils.h file.
+- Added print functions for ROM, RAM, CPU (registers), and the System modules to print out each module's state at any point in time.
+- Revised system constructors to actually construct ROM, RAM, and CPU rather than take references to existing objects.
+- Created a simple test framework, in brvc_test.h, that can be used to create tests, run them, and output their status. This framework is basically complete, and I just need to add different assertion types as needed to fully mark this as complete.
+- I have not yet gotten around to running even a single line of code that I have written so far. I don't even know if it builds. The next task is to implement a test suite for the ROM module and run the tests to verify that ROM is working as intended.
