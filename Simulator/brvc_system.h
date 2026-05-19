@@ -11,14 +11,13 @@
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
 
-struct SystemConfig {
-    static constexpr uint64_t kRomSizeBytes = 64ULL * 1024; // 64 KB
-    static constexpr uint64_t kRamSizeBytes = 4ULL * 1024 * 1024 * 1024; // 4 GB
-};
-
 class System {
     public:
-        explicit System(Cpu& cpu, Rom& rom, Ram& ram);
+        static constexpr uint64_t kRomSizeBytes = 64ULL * 1024; // 64 KB
+        static constexpr uint64_t kRamSizeBytes = 4ULL * 1024 * 1024 * 1024; // 4 GB
+
+        explicit System();
+        explicit System(uint64_t romSize, uint64_t ramSize);
 
         // Non-copyable.
         System(const System&) = delete;
@@ -37,10 +36,12 @@ class System {
 
         void Reset();
 
+        void PrintState();
+
     private:
-        Cpu& cpu_;
-        Rom& rom_;
-        Ram& ram_;
+        Cpu cpu_;
+        Rom rom_;
+        Ram ram_;
 
 };
 

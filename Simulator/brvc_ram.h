@@ -28,10 +28,14 @@ class Ram {
         void WriteByte(uint32_t addr, uint8_t value);
         void WriteWord(uint32_t addr, uint32_t value);
 
+        uint64_t GetSize();
+
         // Load and reset. Load is used to (re)initialize.
         void LoadRam(uint32_t base_addr, uint64_t size, const std::vector<uint8_t>& ram);
         // Clear removes all addresses (effectively sets everything to 0).
-        void Clear (void);
+        void Clear();
+
+        void PrintRam() const;
 
     private:
         std::unordered_map<uint32_t, uint8_t> ram_;

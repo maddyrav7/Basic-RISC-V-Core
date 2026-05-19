@@ -1,5 +1,10 @@
 #include "brvc_cpu.h"
+
+#include <iomanip>
+#include <iostream>
+
 #include "brvc_arch.h"
+#include "brvc_utils.h"
 
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
@@ -31,7 +36,7 @@ void Cpu::WriteRegister(size_t index, uint32_t value) {
                 index, kNumRegisters);
 
     // r0 is tied to 0.
-    if (0 == index) {
+    if (index == 0) {
         return;
     }
 
@@ -74,6 +79,31 @@ void Cpu::Execute(const DecodedInstruction& instruction) {
     (void)instruction;
     // TODO: Rollover is allowed here for the time being. Determine whether it should be, and adjust accordingly.
     pc_ += arch::kArchWidthBytes;
+}
+
+void Cpu::PrintRegisters() const {
+    constexpr int kColumnWidth = 15;
+
+    // Header
+    std::cout << std::left
+              << std::setw(kColumnWidth) << "Register"
+              << std::setw(kColumnWidth) << "Value"
+              << '\n';
+
+    // Separator
+    utils::PrintSeparator();
+
+    // Registers and Values
+    for (size_t reg = 0; reg < kNumRegisters; reg++) {
+        // Register names
+        std::cout << std::left << std::dec
+                  << std::setw(kColumnWidth) << "x" << reg;
+
+        // Register values
+        std::cout << std::uppercase << std::hex << std::showbase
+                  << std::left
+                  << std::setw(kColumnWidth) << registers_.at(reg);
+    }
 }
 
 } // namespace brvc

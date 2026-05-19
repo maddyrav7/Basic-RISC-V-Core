@@ -1,5 +1,10 @@
 #include "brvc_ram.h"
+
+#include <iomanip>
+#include <iostream>
+
 #include "brvc_arch.h"
+#include "brvc_utils.h"
 
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
@@ -52,6 +57,10 @@ void Ram::WriteWord(uint32_t addr, uint32_t value) {
     }
 }
 
+uint64_t Ram::GetSize() {
+    return size_;
+}
+
 void Ram::LoadRam(uint32_t base_addr,
                   uint64_t size,
                   const std::vector<uint8_t>& image) {
@@ -71,6 +80,29 @@ void Ram::LoadRam(uint32_t base_addr,
 
 void Ram::Clear() {
     ram_.clear();
+}
+
+void Ram::PrintRam() const {
+    constexpr int kColumnWidth = 15;
+
+    // Header
+    std::cout << std::left
+              << std::setw(kColumnWidth) << "Address"
+              << std::setw(kColumnWidth) << "Value"
+              << '\n';
+
+    // Separator
+    utils::PrintSeparator();
+
+    std::cout << std::uppercase << std::hex << std::showbase;
+
+    // Addresses and Values
+    for (const auto& [address, value] : ram_) {
+        std::cout << std::left
+                  << std::setw(kColumnWidth) << address
+                  << std::setw(kColumnWidth) << value
+                  << '\n';
+    }
 }
 
 } // namespace brvc

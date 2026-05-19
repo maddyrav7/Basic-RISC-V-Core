@@ -1,5 +1,10 @@
 #include "brvc_rom.h"
+
+#include <iomanip>
+#include <iostream>
+
 #include "brvc_arch.h"
+#include "brvc_utils.h"
 
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
@@ -33,6 +38,10 @@ uint32_t Rom::ReadWord(uint32_t addr) {
     }
 }
 
+uint64_t Rom::GetSize() {
+    return size_;
+}
+
 void Rom::LoadRom(uint32_t base_addr,
                   uint64_t size,
                   const std::vector<uint8_t>& image) {
@@ -52,6 +61,28 @@ void Rom::LoadRom(uint32_t base_addr,
 
 void Rom::Clear() {
     rom_.clear();
+}
+
+void Rom::PrintRom() const {
+    constexpr int kColumnWidth = 15;
+
+    // Header
+    std::cout << std::left
+              << std::setw(kColumnWidth) << "Address"
+              << std::setw(kColumnWidth) << "Value"
+              << '\n';
+
+    utils::PrintSeparator();
+
+    std::cout << std::uppercase << std::hex << std::showbase;
+
+    // Addresses and Values
+    for (const auto& [address, value] : rom_) {
+        std::cout << std::left
+                  << std::setw(kColumnWidth) << address
+                  << std::setw(kColumnWidth) << value
+                  << '\n';
+    }
 }
 
 } // namespace brvc

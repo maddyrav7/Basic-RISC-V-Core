@@ -35,6 +35,8 @@ class Cpu {
 
         void Reset();
 
+        void PrintRegisters() const;
+
     private:
         struct DecodedInstruction {
             // Decoded instruction formats.

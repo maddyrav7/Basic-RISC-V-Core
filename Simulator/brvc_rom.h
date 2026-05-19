@@ -24,10 +24,14 @@ class Rom {
         uint8_t  ReadByte(uint32_t addr);
         uint32_t ReadWord(uint32_t addr);
 
+        uint64_t GetSize();
+
         // Load is used to (re)initialize.
         void LoadRom(uint32_t base_addr, uint64_t size, const std::vector<uint8_t>& image);
         // Clear removes all addresses (effectively sets everything to 0).
-        void Clear(void);
+        void Clear();
+
+        void PrintRom() const;
 
     private:
         std::unordered_map<uint32_t, uint8_t> rom_;

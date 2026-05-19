@@ -1,13 +1,23 @@
 #include "brvc_system.h"
+
+#include <iostream>
+
 #include "brvc_arch.h"
+#include "brvc_utils.h"
 
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
 
-System::System(Cpu& cpu, Rom& rom, Ram& ram)
-    : cpu_(cpu),
-      rom_(rom),
-      ram_(ram)
+System::System()
+    : rom_(kRomSizeBytes),
+      ram_(kRamSizeBytes),
+      cpu_(rom_, ram_)
+      {}
+
+System::System(uint64_t romSize, uint64_t ramSize)
+    : rom_(romSize),
+      ram_(ramSize),
+      cpu_(rom_, ram_)
       {}
 
 void System::Step() {
@@ -37,6 +47,30 @@ void System::Reset() {
     cpu_.Reset();
     rom_.Clear();
     ram_.Clear();
+}
+
+void System::PrintState() {
+    constexpr int kSeparatorLength = 30;
+
+    utils::PrintSeparator();
+    std::cout << "System State\n";
+    utils::PrintSeparator();
+
+    std::cout << "\nRegisters\n\n";
+    cpu_.PrintRegisters();
+
+    utils::PrintSeparator();
+
+    std::cout << "\nROM\n\n";
+    rom_.PrintRom();
+
+    utils::PrintSeparator();
+
+    std::cout << "\nRAM\n\n";
+    ram_.PrintRam();
+
+    utils::PrintSeparator();
+    std::cout << "\n";
 }
 
 } // namespace brvc
