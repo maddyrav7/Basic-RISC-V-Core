@@ -4,71 +4,54 @@
 #include <functional>
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 
-#include "brvc_utils.h"
-
-#define BRVC_TEST_ASSERT_TRUE(condition) \
-    do { \
-        if (!(condition)) { \
-            throw std::runtime_error(__FILE__ ":" __LINE__ ":" __func__ ": ASSERT_TRUE failed: " #condition); \
-        } \
-    } while (false)
-
-#define BRVC_TEST_ASSERT_EQ(A, B) \
-    do { \
-        if ((A) != (B)) { \
-            throw std::runtime_error(__FILE__ ":" __LINE__ ":" __func__ ": ASSERT_EQ failed: " #A " != " #B); \
-        } \
-    } while (false)
+#include "../brvc_utils.h"
 
 namespace brvc::test {
 
-struct BrvcTest {
+struct BrvcTestCase {
     std::string name;
     std::function<void()> func;
 };
 
-static inline std::vector<BrvcTest>& GetTests() {
-    static std::vector<BrvcTest> testList;
-    return testList;
-}
+class BrvcTestSuite {
+    public:
+        explicit BrvcTestSuite(const std::string& name);
 
-inline void AddTest(const std::string& name, std::function<void()> func) {
-    GetTests().push_back({name, func});
-}
+        void AddTest(const std::string& name, std::function<void()> func);
+        int  RunSuite();
 
-inline int RunTests() {
-    int numPassed = 0;
-    int numFailed = 0;
+        const std::string& GetName() const;
+        const std::vector<BrvcTestCase>& GetTests() const;
+        const std::tuple<int, int, int>& GetResults() const;
 
-    utils::PrintSeparator();
-    std::cout << "\n";
-    for (const auto& test : GetTests()) {
-        std::cout << "[ RUNNING ] " << test.name << "\n";
+    private:
+        std::string name_;
+        std::vector<BrvcTestCase> tests_;
+        std::tuple<int, int, int> results_;
+};
 
-        try {
-            test.func();
-            ++numPassed;
-            std::cout << "[ PASSED  ] " << test.name << "\n";
-        }
-        catch (const std::exception& e) {
-            ++numFailed;
-            std::cout << "[ FAILED ] " << test.name << ": " << e.what() << "\n";
-        }
-        catch (...) {
-            ++numFailed;
-            std::cout << "[ FAILED ] " << test.name << ": unknown error\n";
-        }
-    }
-
-    utils::PrintSeparator();
-    std::cout << "\n" << numPassed << "/" << numPassed + numFailed << " tests passed.\n\n";
-    utils::PrintSeparator();
-
-    return numFailed;
-}
+void AddTestSuite(const BrvcTestSuite& suite);
+int  RunTests();
 
 } // namespace brvc::test
+
+#define BRVC_TEST_ASSERT_TRUE(condition)                                                     \
+    do {                                                                                     \
+        if (!(condition)) {                                                                  \
+            throw std::runtime_error(LOCATION_STRING + ": ASSERT_TRUE failed: " #condition); \
+        }                                                                                    \
+    } while (false)
+
+#define BRVC_TEST_ASSERT_EQ(A, B)                                                            \
+    do {                                                                                     \
+        if ((A) != (B)) {                                                                    \
+            throw std::runtime_error(LOCATION_STRING + ": ASSERT_EQ failed: " #A " != " #B); \
+        }                                                                                    \
+    } while (false)
+
+#define BRVC_ADD_TEST(suite, test_name) suite.AddTest(#test_name, test_name)
 
 #endif // BRVC_TEST_H
