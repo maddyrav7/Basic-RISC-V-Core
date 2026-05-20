@@ -42,20 +42,12 @@ uint64_t Rom::GetSize() {
     return size_;
 }
 
-void Rom::LoadRom(uint32_t base_addr,
-                  uint64_t size,
-                  const std::vector<uint8_t>& image) {
-    BRVC_ASSERT((static_cast<uint64_t>(base_addr) + size) <= static_cast<uint64_t>(size_),
-                 "Given address (%llx) and size (%llx) exceed address space (%llx).",
-                 static_cast<uint64_t>(base_addr), size, size_);
-
-    BRVC_ASSERT(image.size() >= size, "Size of given image (%llx) too small for given load size (%llx).",
-                image.size(), size);
-
-    // TODO: This is inefficient and will become very slow as the ROM size increases.
-    // Change this to a more efficient (sparse) algorithm later.
-    for (uint32_t i = 0; i < size; ++i) {
-        rom_.insert_or_assign(base_addr + i, image.at(i));
+void Rom::LoadRom(const std::unordered_map<uint32_t, uint8_t>& image) {
+    for (const auto& [address, value] : image) {
+        BRVC_ASSERT(static_cast<uint64_t>(address) < size_,
+                    "Address given in image (%llx) exceeds address space (%llx).",
+                    static_cast<uint64_t>(address), size_);
+        rom_.insert_or_assign(address, value);
     }
 }
 

@@ -3,7 +3,6 @@
 
 #include <cstdint>
 #include <unordered_map>
-#include <vector>
 
 // BRVC (Basic RISC-V Core) namespace
 namespace brvc {
@@ -27,7 +26,7 @@ class Rom {
         uint64_t GetSize();
 
         // Load is used to (re)initialize.
-        void LoadRom(uint32_t base_addr, uint64_t size, const std::vector<uint8_t>& image);
+        void LoadRom(const std::unordered_map<uint32_t, uint8_t>& image);
         // Clear removes all addresses (effectively sets everything to 0).
         void Clear();
 
