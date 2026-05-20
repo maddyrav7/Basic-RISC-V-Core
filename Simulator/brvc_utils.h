@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+#define LOCATION_STRING __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(":") + __func__
+
 #define BRVC_ASSERT(condition, format, ...)                \
     do {                                                   \
         if (!(condition)) {                                \
@@ -26,9 +28,14 @@
 namespace brvc::utils {
 
 static constexpr int kSeparatorLength = 30;
+static constexpr char kSeparatorChar = '-';
 
-inline void PrintSeparator(int len = kSeparatorLength) {
-    std::cout << std::string(kSeparatorLength, '-') << "\n";
+inline void PrintSeparator(char sep = kSeparatorChar, int len = kSeparatorLength) {
+    std::cout << std::string(kSeparatorLength, kSeparatorChar) << "\n";
+}
+
+inline void PrintNewLine() {
+    std::cout << "\n";
 }
 
 } // namespace brvc::utils
