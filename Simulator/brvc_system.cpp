@@ -9,8 +9,8 @@
 namespace brvc {
 
 System::System()
-    : rom_(kRomSizeBytes),
-      ram_(kRamSizeBytes),
+    : rom_(arch::kRomSizeBytes),
+      ram_(arch::kRamSizeBytes),
       cpu_(rom_, ram_)
       {}
 
@@ -70,7 +70,7 @@ void System::PrintState() {
     ram_.PrintRam();
 
     utils::PrintSeparator();
-    std::cout << "\n";
+    utils::PrintNewLine();
 }
 
 } // namespace brvc

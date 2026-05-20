@@ -13,9 +13,6 @@ namespace brvc {
 
 class System {
     public:
-        static constexpr uint64_t kRomSizeBytes = 64ULL * 1024; // 64 KB
-        static constexpr uint64_t kRamSizeBytes = 4ULL * 1024 * 1024 * 1024; // 4 GB
-
         explicit System();
         explicit System(uint64_t romSize, uint64_t ramSize);
 
@@ -45,6 +42,6 @@ class System {
 
 };
 
-} // namespace bvrc
+} // namespace brvc
 
 #endif // BRVC_SYSTEM_H

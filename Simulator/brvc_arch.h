@@ -11,6 +11,9 @@ namespace brvc::arch {
     static constexpr uint32_t kWordBytes = 4;
     static constexpr uint32_t kByteBits = 8;
     static constexpr uint8_t  kByteBitMask = 0xF;
+
+    static constexpr uint64_t kRomSizeBytes = 64ULL * 1024; // 64 KB
+    static constexpr uint64_t kRamSizeBytes = 4ULL * 1024 * 1024 * 1024; // 4 GB
 } // namespace brvc::arch
 
 #endif // BRVC_ARCH_H
