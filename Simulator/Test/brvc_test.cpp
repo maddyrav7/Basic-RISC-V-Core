@@ -106,7 +106,8 @@ int RunTestSuites() {
     utils::PrintSeparator('=');
     std::cout << "FINAL SUMMARY: "
               << numPassedSuites << " SUITES PASSED, " << numFailedSuites << " SUITES FAILED, "
-              << " OUT OF " << numPassedSuites + numFailedSuites << " TOTAL SUITES.\n";
+              << " OUT OF " << numPassedSuites + numFailedSuites << " TOTAL SUITES ("
+              << numPassedTests << "/" << numTotalTests << " tests passed).\n";
     utils::PrintSeparator('=');
     utils::PrintNewLine();
 }

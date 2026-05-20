@@ -35,4 +35,4 @@ Much of the code I wrote today is relatively self-explanatory; not many details 
 - Created a brvc_test.cpp source file for better organization of the testing framework.
 - The construction of test assertion error strings was incorrect (buggy), fixed that.
 - Created a few ROM tests to start. Will create more in the future.
-- Next step is actually to add and configure the build system, so that I can starting testing things like running my ROM tests.
+- Next step is actually to add and configure the build system, so that I can start testing things like running my ROM tests.
