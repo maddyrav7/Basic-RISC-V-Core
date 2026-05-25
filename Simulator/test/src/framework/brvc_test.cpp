@@ -64,11 +64,15 @@ const std::vector<BrvcTestCase>& BrvcTestSuite::GetTests() const {
     return tests_;
 }
 
+const std::tuple<int, int, int>& BrvcTestSuite::GetResults() const {
+    return results_;
+}
+
 void AddTestSuite(const BrvcTestSuite& suite) {
     GetTestSuites().push_back(suite);
 }
 
-int RunTestSuites() {
+int RunTests() {
     int numPassedSuites = 0;
     int numFailedSuites = 0;
     int numPassedTests = 0;
@@ -110,6 +114,8 @@ int RunTestSuites() {
               << numPassedTests << "/" << numTotalTests << " tests passed).\n";
     utils::PrintSeparator('=');
     utils::PrintNewLine();
+
+    return numFailedSuites;
 }
 
 } // namespace brvc::test

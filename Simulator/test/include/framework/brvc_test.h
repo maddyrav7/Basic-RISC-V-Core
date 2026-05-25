@@ -7,7 +7,7 @@
 #include <tuple>
 #include <vector>
 
-#include "../brvc_utils.h"
+#include "brvc_utils.h"
 
 namespace brvc::test {
 

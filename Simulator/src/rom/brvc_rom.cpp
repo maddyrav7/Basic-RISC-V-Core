@@ -10,7 +10,7 @@
 namespace brvc {
 
 Rom::Rom(uint64_t size) {
-    BRVC_ASSERT(size <= arch::kAddressSpaceSize, "Given size (%llx) exceeds address space (%llx).",
+    BRVC_ASSERT(size <= arch::kAddressSpaceSize, "Given size (0x%llx) exceeds address space (0x%llx).",
                 size, arch::kAddressSpaceSize);
     BRVC_ASSERT_ALIGNED(size, arch::kArchWidthBytes);
 
@@ -18,7 +18,7 @@ Rom::Rom(uint64_t size) {
 }
 
 uint8_t Rom::ReadByte(uint32_t addr) {
-    BRVC_ASSERT(static_cast<uint64_t>(addr) < size_, "Given address (%llx) exceeds address space (%llx).",
+    BRVC_ASSERT(static_cast<uint64_t>(addr) < size_, "Given address (0x%llx) exceeds address space (0x%llx).",
                 static_cast<uint64_t>(addr), size_);
 
     rom_.try_emplace(addr, uint8_t{0});
@@ -27,7 +27,7 @@ uint8_t Rom::ReadByte(uint32_t addr) {
 
 uint32_t Rom::ReadWord(uint32_t addr) {
     BRVC_ASSERT((static_cast<uint64_t>(addr) + static_cast<uint64_t>(arch::kWordBytes)) <= size_,
-                 "Given word address (addr %llx, word size %llx) exceeds address space (%llx).",
+                 "Given word address (addr 0x%llx, word size 0x%llx) exceeds address space (0x%llx).",
                  static_cast<uint64_t>(addr), static_cast<uint64_t>(arch::kWordBytes), size_);
     BRVC_ASSERT_ALIGNED(addr, arch::kWordBytes);
 
@@ -36,6 +36,8 @@ uint32_t Rom::ReadWord(uint32_t addr) {
         // Little-endian.
         word |= (static_cast<uint32_t>(ReadByte(addr + i)) << (i * arch::kByteBits));
     }
+
+    return word;
 }
 
 uint64_t Rom::GetSize() {
@@ -45,7 +47,7 @@ uint64_t Rom::GetSize() {
 void Rom::LoadRom(const std::unordered_map<uint32_t, uint8_t>& image) {
     for (const auto& [address, value] : image) {
         BRVC_ASSERT(static_cast<uint64_t>(address) < size_,
-                    "Address given in image (%llx) exceeds address space (%llx).",
+                    "Address given in image (0x%llx) exceeds address space (0x%llx).",
                     static_cast<uint64_t>(address), size_);
         rom_.insert_or_assign(address, value);
     }
@@ -58,6 +60,12 @@ void Rom::Clear() {
 void Rom::PrintRom() const {
     constexpr int kColumnWidth = 15;
 
+    // Title
+    utils::PrintNewLine();
+    utils::PrintSeparator();
+    std::cout << "ROM Status\n";
+    utils::PrintSeparator();
+
     // Header
     std::cout << std::left
               << std::setw(kColumnWidth) << "Address"
@@ -66,15 +74,18 @@ void Rom::PrintRom() const {
 
     utils::PrintSeparator();
 
-    std::cout << std::uppercase << std::hex << std::showbase;
+    std::cout << std::uppercase << std::hex;
 
     // Addresses and Values
     for (const auto& [address, value] : rom_) {
         std::cout << std::left
-                  << std::setw(kColumnWidth) << address
-                  << std::setw(kColumnWidth) << value
+                  << "0x" << std::setw(kColumnWidth - 2) << address
+                  << "0x" << std::setw(kColumnWidth - 2) << static_cast<uint32_t>(value)
                   << '\n';
     }
+
+    std::cout << std::dec;
+    utils::PrintNewLine();
 }
 
 } // namespace brvc

@@ -11,8 +11,7 @@
 #define BRVC_ASSERT(condition, format, ...)                \
     do {                                                   \
         if (!(condition)) {                                \
-            std::fprintf(stderr, "%s:%s:%s: ",             \
-                         __FILE__, __LINE__, __func__);    \
+            std::cerr << LOCATION_STRING << ": ";          \
             std::fprintf(stderr, (format), ##__VA_ARGS__); \
             std::fprintf(stderr, "\n");                    \
             std::fflush(stderr);                           \
@@ -22,7 +21,7 @@
 
 #define BRVC_ASSERT_ALIGNED(val, base)                            \
     BRVC_ASSERT((static_cast<uint64_t>((val)) % (base)) == 0,     \
-    "Provided value (%llx) is not aligned to base (%llx).",       \
+    "Provided value (0x%llx) is not aligned to base (0x%llx).",   \
     static_cast<uint64_t>((val)), static_cast<uint64_t>((base)));
 
 namespace brvc::utils {
@@ -31,7 +30,7 @@ static constexpr int kSeparatorLength = 30;
 static constexpr char kSeparatorChar = '-';
 
 inline void PrintSeparator(char sep = kSeparatorChar, int len = kSeparatorLength) {
-    std::cout << std::string(kSeparatorLength, kSeparatorChar) << "\n";
+    std::cout << std::string(len, sep) << "\n";
 }
 
 inline void PrintNewLine() {

@@ -84,6 +84,12 @@ void Cpu::Execute(const DecodedInstruction& instruction) {
 void Cpu::PrintRegisters() const {
     constexpr int kColumnWidth = 15;
 
+    // Title
+    utils::PrintNewLine();
+    utils::PrintSeparator();
+    std::cout << "CPU Registers Status\n";
+    utils::PrintSeparator();
+
     // Header
     std::cout << std::left
               << std::setw(kColumnWidth) << "Register"
@@ -97,13 +103,16 @@ void Cpu::PrintRegisters() const {
     for (size_t reg = 0; reg < kNumRegisters; reg++) {
         // Register names
         std::cout << std::left << std::dec
-                  << std::setw(kColumnWidth) << "x" << reg;
+                  << "x" << std::setw(kColumnWidth - 1) << reg;
 
         // Register values
-        std::cout << std::uppercase << std::hex << std::showbase
+        std::cout << std::uppercase << std::hex
                   << std::left
-                  << std::setw(kColumnWidth) << registers_.at(reg);
+                  << "0x" << std::setw(kColumnWidth - 2) << registers_.at(reg);
     }
+    
+    std::cout << std::dec;
+    utils::PrintNewLine();
 }
 
 } // namespace brvc

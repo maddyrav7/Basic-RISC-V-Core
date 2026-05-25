@@ -50,8 +50,6 @@ void System::Reset() {
 }
 
 void System::PrintState() {
-    constexpr int kSeparatorLength = 30;
-
     utils::PrintSeparator();
     std::cout << "System State\n";
     utils::PrintSeparator();
