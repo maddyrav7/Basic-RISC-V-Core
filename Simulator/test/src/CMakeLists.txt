@@ -50,11 +50,6 @@ add_executable(brvc_tests
     brvc_test_main.cpp
 )
 
-# target_include_directories(brvc_test_common
-#     PUBLIC
-#         ${PROJECT_SOURCE_DIR}/test/include/framework
-# )
-
 target_link_libraries(brvc_tests
     PRIVATE
         brvc_test_common

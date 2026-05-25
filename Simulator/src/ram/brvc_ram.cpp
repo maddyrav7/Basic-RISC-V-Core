@@ -1,5 +1,6 @@
 #include "brvc_ram.h"
 
+#include <format>
 #include <iomanip>
 #include <iostream>
 
@@ -102,17 +103,14 @@ void Ram::PrintRam() const {
     // Separator
     utils::PrintSeparator();
 
-    std::cout << std::uppercase << std::hex;
-
     // Addresses and Values
     for (const auto& [address, value] : ram_) {
         std::cout << std::left
-                  << "0x" << std::setw(kColumnWidth - 2) << address
-                  << "0x" << std::setw(kColumnWidth - 2) << static_cast<uint32_t>(value)
+                  << std::setw(kColumnWidth) << std::format("0x{:08X}", address)
+                  << std::setw(kColumnWidth) << std::format("0x{:02X}", value)
                   << '\n';
     }
 
-    std::cout << std::dec;
     utils::PrintNewLine();
 }
 

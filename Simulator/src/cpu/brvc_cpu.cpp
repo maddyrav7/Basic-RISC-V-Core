@@ -1,5 +1,6 @@
 #include "brvc_cpu.h"
 
+#include <format>
 #include <iomanip>
 #include <iostream>
 
@@ -106,12 +107,10 @@ void Cpu::PrintRegisters() const {
                   << "x" << std::setw(kColumnWidth - 1) << reg;
 
         // Register values
-        std::cout << std::uppercase << std::hex
-                  << std::left
-                  << "0x" << std::setw(kColumnWidth - 2) << registers_.at(reg);
+        std::cout << std::left
+                  << std::setw(kColumnWidth) << std::format("0x{:08X}", registers_.at(reg));
     }
     
-    std::cout << std::dec;
     utils::PrintNewLine();
 }
 
