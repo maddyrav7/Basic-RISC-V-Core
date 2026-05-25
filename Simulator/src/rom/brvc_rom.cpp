@@ -3,6 +3,7 @@
 #include <format>
 #include <iomanip>
 #include <iostream>
+#include <map>
 
 #include "brvc_arch.h"
 #include "brvc_utils.h"
@@ -61,6 +62,9 @@ void Rom::Clear() {
 void Rom::PrintRom() const {
     constexpr int kColumnWidth = 15;
 
+    // Sort
+    std::map<uint32_t, uint8_t> sortedRom(rom_.begin(), rom_.end());
+
     // Title
     utils::PrintNewLine();
     utils::PrintSeparator();
@@ -76,7 +80,7 @@ void Rom::PrintRom() const {
     utils::PrintSeparator();
 
     // Addresses and Values
-    for (const auto& [address, value] : rom_) {
+    for (const auto& [address, value] : sortedRom) {
         std::cout << std::left
                   << std::setw(kColumnWidth) << std::format("0x{:08X}", address)
                   << std::setw(kColumnWidth) << std::format("0x{:02X}", value)

@@ -3,6 +3,7 @@
 #include <format>
 #include <iomanip>
 #include <iostream>
+#include <map>
 
 #include "brvc_arch.h"
 #include "brvc_utils.h"
@@ -88,6 +89,9 @@ void Ram::Clear() {
 void Ram::PrintRam() const {
     constexpr int kColumnWidth = 15;
 
+    // Sort
+    std::map<uint32_t, uint8_t> sortedRam(ram_.begin(), ram_.end());
+
     // Title
     utils::PrintNewLine();
     utils::PrintSeparator();
@@ -104,7 +108,7 @@ void Ram::PrintRam() const {
     utils::PrintSeparator();
 
     // Addresses and Values
-    for (const auto& [address, value] : ram_) {
+    for (const auto& [address, value] : sortedRam) {
         std::cout << std::left
                   << std::setw(kColumnWidth) << std::format("0x{:08X}", address)
                   << std::setw(kColumnWidth) << std::format("0x{:02X}", value)
