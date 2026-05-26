@@ -15,8 +15,6 @@ if (MSVC)
         /W4
         /WX
     )
-else()
-    message(FATAL_ERROR "This project only supports MSVC.")
 endif()
 
 add_subdirectory(src)

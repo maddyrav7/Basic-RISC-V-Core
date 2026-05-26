@@ -36,3 +36,57 @@ Much of the code I wrote today is relatively self-explanatory; not many details 
 - The construction of test assertion error strings was incorrect (buggy), fixed that.
 - Created a few ROM tests to start. Will create more in the future.
 - Next step is actually to add and configure the build system, so that I can start testing things like running my ROM tests.
+
+## 2026-05-25
+
+- Moved each module into its own directory, and split source and header files into separate directories. This was done to support future expansion of each module. For example, if I later add a DRAM controller with specific access policies, a simple RAM module like I have today won't be enough. The module would likely grow to be much larger in size and complexity. To keep the systems modular, and keep individual modules as separate as possible (e.g. ROM doesn't need access to RAM files and vice versa), I made these changes to move each module into its own directory.
+- Added the CMake build system.
+- Note that each module in this case is built as its own library, which seems strange right now but is meant to support the pattern I mentioned above, where each of these individual libraries might grow significantly in size.
+- Fixed bugs that caused build issues, like with some of the utility macros.
+- Fixed the print outputs of various modules.
+- Integrated the existing ROM test, which now produces the following output when run:
+
+```
+------------------------------
+TEST SUITE: ROM
+
+[ RUNNING ] ConstructCorrectSize
+[ PASSED  ] ConstructCorrectSize
+[ RUNNING ] DefaultReadByteZero
+[ PASSED  ] DefaultReadByteZero
+[ RUNNING ] LoadPartialRomReadsBackCorrectBytes
+
+------------------------------
+ROM Status
+------------------------------
+Address        Value
+------------------------------
+0x00000000     0x11
+0x00001111     0x22
+0x00002222     0x33
+0x00003333     0x44
+0x00004444     0x55
+0x00005555     0x66
+0x00006666     0x77
+0x00007777     0x88
+0x0000ABCD     0xBE
+0x0000FFFF     0x00
+
+[ PASSED  ] LoadPartialRomReadsBackCorrectBytes
+[ RUNNING ] LoadFullRomReadsBackCorrectBytes
+[ PASSED  ] LoadFullRomReadsBackCorrectBytes
+------------------------------
+TEST SUITE ROM RESULTS: 4 PASSED, 0 FAILED, 4 TOTAL.
+------------------------------
+==============================
+TESTING SUMMARY
+==============================
+
+ROM: 4 PASSED, 0 FAILED, 4 TOTAL.
+
+==============================
+FINAL SUMMARY: 1 SUITES PASSED, 0 SUITES FAILED,  OUT OF 1 TOTAL SUITES (4/4 tests passed).
+==============================
+```
+
+One thing I'm realizing, is that if I want to eventually transition this system to a 64-bit CPU, it might make sense for me to make that change sooner (i.e. now) rather than later. Especially with the amount of setup work involved with the simulator, it might be relatively difficult to transition to a 64-bit architecture after significant work has been done on the simulator. For this reason, I'm considering putting my other tasks on hold to spend some time transitioning the simulator to a 64-bit one right now. One more thing is that before I get around to writing the decoding logic, I need to finish the test suite for ROM, and create one for RAM (which is more complicated). For this reason, I've put the task on writing decoding logic on hold.
